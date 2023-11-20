@@ -43,7 +43,7 @@ def getOneRegionLBPFeatures(subImage, label_type):
     return normalized_histogram
 
 def getLBPFeatures(featureImage, regionSideCnt, label_type):
-    # Function to get the LBP features!
+    # Function to get the LBP features
     # Written by Ryan Janis
     # Nov 2023 --- Python 3.10.11
     subregion_width = featureImage.shape[1] // regionSideCnt
