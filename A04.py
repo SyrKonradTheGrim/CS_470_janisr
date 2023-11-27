@@ -16,8 +16,16 @@ def getOneLBPLabel(subimage, label_type):
               subimage[2, 0], subimage[1, 0]]
 
     binary_values = [1 if val > center else 0 for val in values]
-    decimal_value = sum([binary_values[i] * (2**i) for i in range(8)])
-    return decimal_value
+
+    # Count transitions from 0 to 1 and 1 to 0
+    transitions = sum(1 for i in range(8) if binary_values[i] != binary_values[(i + 1) % 8])
+
+    if transitions <= 2:
+        # Count the number of 1s in binary_values
+        ones_count = sum(binary_values)
+        return ones_count
+    else:
+        return 9
 
 def getLBPImage(image, label_type):
     # Function to generate and return the uniform LBP label image
@@ -29,7 +37,7 @@ def getLBPImage(image, label_type):
     for i in range(1, image.shape[0] + 1):
         for j in range(1, image.shape[1] + 1):
             subimage = padded_image[i-1:i+2, j-1:j+2]
-            lbp_image[i-1, j-1] = getOneLBPLabel(subimage)
+            lbp_image[i-1, j-1] = getOneLBPLabel(subimage, None)
 
     return lbp_image
 
@@ -37,9 +45,15 @@ def getOneRegionLBPFeatures(subImage, label_type):
     # Function to return the LBP histogram
     # Written by Ryan Janis
     # Nov 2023 --- Python 3.10.11
-    hist_size = 10
-    histogram = np.histogram(subImage.flatten(), bins=hist_size, range=[0, hist_size])
-    normalized_histogram = histogram / np.sum(histogram)
+    histogram, _ = np.histogram(subImage, bins=np.arange(11), density=True)
+
+    # If the histogram size is less than 10, pad with zeros
+    if len(histogram) < 10:
+        histogram = np.pad(histogram, (0, 10 - len(histogram)))
+
+    # Normalize the histogram
+    normalized_histogram = histogram.astype(float) / np.sum(histogram)
+
     return normalized_histogram
 
 def getLBPFeatures(featureImage, regionSideCnt, label_type):
@@ -58,7 +72,7 @@ def getLBPFeatures(featureImage, regionSideCnt, label_type):
             end_col = (j + 1) * subregion_width
 
             subimage = featureImage[start_row:end_row, start_col:end_col]
-            hist = getOneRegionLBPFeatures(subimage)
+            hist = getOneRegionLBPFeatures(subimage, None)
             all_hists.append(hist)
 
     all_hists = np.array(all_hists)
