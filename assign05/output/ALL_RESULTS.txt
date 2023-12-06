@@ -1,0 +1,80 @@
+****************************************
+APPROACHES: 
+****************************************
+
+* TheCNN
+	 A CNN with three convolutional layers and three fully-connected layers, utilizing dropout and batch normalization..
+
+* AnotherCNN
+	 A simpler CNN with two convolutional layers and two fully connected layers.
+
+****************************************
+RESULTS:
+****************************************
+APPROACH	TRAINING_accuracy	TRAINING_f1	TESTING_accuracy	TESTING_f1
+TheCNN	0.8038	0.8015	0.7889	0.7860
+AnotherCNN	0.6736	0.6658	0.6606	0.6533
+
+****************************************
+MODEL ARCHITECTURES:
+****************************************
+* TheCNN
+TheCNN(
+  (net_stack): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (4): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (7): Dropout(p=0.25, inplace=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (12): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (13): ReLU()
+    (14): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (15): Dropout(p=0.25, inplace=False)
+    (16): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (17): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (18): ReLU()
+    (19): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (20): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (21): ReLU()
+    (22): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (23): Dropout(p=0.25, inplace=False)
+    (24): Flatten(start_dim=1, end_dim=-1)
+    (25): Linear(in_features=4096, out_features=1024, bias=True)
+    (26): BatchNorm1d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (27): ReLU()
+    (28): Dropout(p=0.5, inplace=False)
+    (29): Linear(in_features=1024, out_features=512, bias=True)
+    (30): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (31): ReLU()
+    (32): Dropout(p=0.5, inplace=False)
+    (33): Linear(in_features=512, out_features=10, bias=True)
+  )
+)
+
+* AnotherCNN
+AnotherCNN(
+  (net_stack): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (1): ReLU()
+    (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (5): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (6): ReLU()
+    (7): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=same)
+    (8): ReLU()
+    (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (10): Flatten(start_dim=1, end_dim=-1)
+    (11): Linear(in_features=4096, out_features=32, bias=True)
+    (12): ReLU()
+    (13): Linear(in_features=32, out_features=10, bias=True)
+  )
+)
+
